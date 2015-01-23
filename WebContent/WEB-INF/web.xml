@@ -17,6 +17,7 @@
 		<param-value>
 			classpath:applicationContext.xml,
 			classpath:beans.xml
+			classpath:database.xml
 		</param-value>
 	</context-param>
 	<listener>

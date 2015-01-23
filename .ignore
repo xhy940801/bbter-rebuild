@@ -14,3 +14,4 @@ hs_err_pid*
 /.settings
 /build
 /JUnitTest
+/src/database.xml
