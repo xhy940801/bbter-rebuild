@@ -3,8 +3,11 @@ package net._100steps.bbter.service.dao.hibernateimpl;
 
 
 
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
+import org.hibernate.HibernateException;
 
+import net._100steps.bbter.service.dao.DAOException;
 import net._100steps.bbter.service.dao.user.UserDAO;
 import net._100steps.bbter.service.model.User;
 
@@ -14,19 +17,31 @@ public class UserDAOHibernateImpl implements UserDAO{
 	@Override
 	public void save(User user) {
 		// TODO Auto-generated method stub
-		sessionFactory.getCurrentSession().save(user);
+		try{
+			sessionFactory.getCurrentSession().save(user);
+		}catch(HibernateException e){
+			throw new DAOException(e);
+		}
 	}
 
 	@Override
 	public void update(User user) {
 		// TODO Auto-generated method stub
+		try{
 		sessionFactory.getCurrentSession().update(user);
+		}catch(HibernateException e){
+			throw new DAOException(e);
+		}
 	}
 
 	@Override
 	public User getUserById(int id) {
 		// TODO Auto-generated method stub
+		try{
 		return (User)sessionFactory.getCurrentSession().get(UserDAO.class, id);
+		}catch(HibernateException e){
+			throw new DAOException(e);
+		}
 	}
 
 	@Override
@@ -43,7 +58,13 @@ public class UserDAOHibernateImpl implements UserDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory)
 	{
-		this.sessionFactory = sessionFactory;
+		try {
+			this.sessionFactory = sessionFactory;
+		} catch (HibernateException e) {
+			// TODO: handle exception
+			throw new DAOException(e);
+		}
+		
 	}
 	/*@Override
 	public User getUserByDepartmentId(int departmentId) {
