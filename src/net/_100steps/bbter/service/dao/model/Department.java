@@ -1,4 +1,4 @@
-package net._100steps.service.dao.model;
+package net._100steps.bbter.service.dao.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Group
+public class Department
 {
 	private int id;
 	private String name;

@@ -1,4 +1,4 @@
-package net._100steps.service.message;
+package net._100steps.bbter.service.message;
 
 public interface Message
 {

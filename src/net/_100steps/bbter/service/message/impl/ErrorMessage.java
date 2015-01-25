@@ -1,6 +1,6 @@
-package net._100steps.service.message.impl;
+package net._100steps.bbter.service.message.impl;
 
-import net._100steps.service.message.Message;
+import net._100steps.bbter.service.message.Message;
 
 public class ErrorMessage implements Message
 {

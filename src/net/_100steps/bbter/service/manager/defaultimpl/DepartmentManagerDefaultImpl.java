@@ -1,15 +1,15 @@
-package net._100steps.service.manager.defaultimpl;
+package net._100steps.bbter.service.manager.defaultimpl;
 
 import java.util.List;
 
-import net._100steps.service.dao.DAOException;
-import net._100steps.service.dao.departments.DepartmentDAO;
-import net._100steps.service.dao.model.Department;
-import net._100steps.service.manager.DepartmentManager;
-import net._100steps.service.message.Message;
-import net._100steps.service.message.impl.DepartmentMessage;
-import net._100steps.service.message.impl.ErrorMessage;
-import net._100steps.service.message.impl.GeneralMessage;
+import net._100steps.bbter.service.dao.DAOException;
+import net._100steps.bbter.service.dao.departments.DepartmentDAO;
+import net._100steps.bbter.service.dao.model.Department;
+import net._100steps.bbter.service.manager.DepartmentManager;
+import net._100steps.bbter.service.message.Message;
+import net._100steps.bbter.service.message.impl.DepartmentMessage;
+import net._100steps.bbter.service.message.impl.ErrorMessage;
+import net._100steps.bbter.service.message.impl.GeneralMessage;
 
 public class DepartmentManagerDefaultImpl implements DepartmentManager
 {

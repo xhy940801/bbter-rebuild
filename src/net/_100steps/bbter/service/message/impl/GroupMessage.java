@@ -1,10 +1,10 @@
-package net._100steps.service.message.impl;
+package net._100steps.bbter.service.message.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net._100steps.service.dao.model.Group;
-import net._100steps.service.message.Message;
+import net._100steps.bbter.service.dao.model.Group;
+import net._100steps.bbter.service.message.Message;
 
 public class GroupMessage implements Message
 {

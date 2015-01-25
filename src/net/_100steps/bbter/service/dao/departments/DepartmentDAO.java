@@ -1,8 +1,8 @@
-package net._100steps.service.dao.departments;
+package net._100steps.bbter.service.dao.departments;
 
 import java.util.List;
 
-import net._100steps.service.dao.model.Department;
+import net._100steps.bbter.service.dao.model.Department;
 
 public interface DepartmentDAO
 {

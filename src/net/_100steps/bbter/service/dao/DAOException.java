@@ -1,4 +1,4 @@
-package net._100steps.service.dao;
+package net._100steps.bbter.service.dao;
 
 public class DAOException extends RuntimeException
 {
