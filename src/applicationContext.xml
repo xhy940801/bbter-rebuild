@@ -10,14 +10,6 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
-	
-	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/discovery" />
-		<property name="username" value="root" />
-		<property name="password" value="kfdiv71569" />
-	</bean>
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
