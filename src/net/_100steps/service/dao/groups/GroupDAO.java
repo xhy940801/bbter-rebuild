@@ -2,9 +2,11 @@ package net._100steps.service.dao.groups;
 
 import java.util.List;
 
-class GroupDAO
+import net._100steps.service.dao.model.Group;
+
+public interface GroupDAO
 {
-	public int save(Group group);
+	public void save(Group group);
 	public void update(Group group);
 	public Group getById(int id);
 	public List<Group> getAll();
