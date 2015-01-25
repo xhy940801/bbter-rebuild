@@ -31,6 +31,7 @@ public class GroupDAOHibernateImpl implements GroupDAO
 	}
 
 	@Override
+	@Transactional
 	public void update(Group Group)
 	{
 		try
@@ -44,6 +45,7 @@ public class GroupDAOHibernateImpl implements GroupDAO
 	}
 
 	@Override
+	@Transactional
 	public Group getById(int id)
 	{
 		try
@@ -58,6 +60,7 @@ public class GroupDAOHibernateImpl implements GroupDAO
 
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public List<Group> getAll()
 	{
 		try
@@ -68,6 +71,14 @@ public class GroupDAOHibernateImpl implements GroupDAO
 		{
 			throw new DAOException(e);
 		}
+	}
+	
+	@Override
+	@Transactional
+	public void delete(int id)
+	{
+		if(sessionFactory.getCurrentSession().createQuery("delete from Group as d where d.id=?").setInteger(0, id).executeUpdate() == 0)
+			throw new DAOException("记录不存在");
 	}
 	
 	public void setSessionFactory(SessionFactory sessionFactory)

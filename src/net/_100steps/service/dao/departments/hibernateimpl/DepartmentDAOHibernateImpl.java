@@ -30,6 +30,7 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 	}
 
 	@Override
+	@Transactional
 	public void update(Department department)
 	{
 		try
@@ -43,6 +44,7 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 	}
 
 	@Override
+	@Transactional
 	public Department getById(int id)
 	{
 		try
@@ -57,16 +59,25 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public List<Department> getAll()
 	{
 		try
 		{
-			return (List<Department>) sessionFactory.getCurrentSession().createQuery("select from Department");
+			return (List<Department>) sessionFactory.getCurrentSession().createQuery("select from Department").list();
 		}
 		catch (HibernateException e)
 		{
 			throw new DAOException(e);
 		}
+	}
+	
+	@Override
+	@Transactional
+	public void delete(int id)
+	{
+		if(sessionFactory.getCurrentSession().createQuery("delete from Department as d where d.id=?").setInteger(0, id).executeUpdate() == 0)
+			throw new DAOException("记录不存在");
 	}
 	
 	public void setSessionFactory(SessionFactory sessionFactory)
