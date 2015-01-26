@@ -1,8 +1,8 @@
-package net._100steps.bbter.service.dao.groups;
+package net._100steps.bbter.service.dao.group;
 
 import java.util.List;
 
-import net._100steps.bbter.service.dao.model.Group;
+import net._100steps.bbter.service.model.Group;
 
 public interface GroupDAO
 {

@@ -11,4 +11,14 @@
 	http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+	<bean id="departmentManager"
+		class="net._100steps.bbter.service.manager.defaultimpl.DepartmentManagerDefaultImpl">
+		<property name="departmentDAO" ref="departmentDAO"></property>
+	</bean>
+
+	<bean id="groupManager"
+		class="net._100steps.bbter.service.manager.defaultimpl.GroupManagerDefaultImpl">
+		<property name="groupDAO" ref="groupDAO"></property>
+	</bean>
+
 </beans>

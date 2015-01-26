@@ -3,13 +3,13 @@ package net._100steps.bbter.service.manager.defaultimpl;
 import java.util.List;
 
 import net._100steps.bbter.service.dao.DAOException;
-import net._100steps.bbter.service.dao.groups.GroupDAO;
-import net._100steps.bbter.service.dao.model.Group;
+import net._100steps.bbter.service.dao.group.GroupDAO;
 import net._100steps.bbter.service.manager.GroupManager;
 import net._100steps.bbter.service.message.Message;
 import net._100steps.bbter.service.message.impl.ErrorMessage;
 import net._100steps.bbter.service.message.impl.GeneralMessage;
 import net._100steps.bbter.service.message.impl.GroupMessage;
+import net._100steps.bbter.service.model.Group;
 
 public class GroupManagerDefaultImpl implements GroupManager
 {
@@ -48,7 +48,8 @@ public class GroupManagerDefaultImpl implements GroupManager
 			group = groupDAO.getById(id);
 			if(group == null)
 				return new ErrorMessage(302020);
-			groupDAO.save(group);
+			group.setName(name);
+			groupDAO.update(group);
 		}
 		catch(DAOException e)
 		{
@@ -78,7 +79,7 @@ public class GroupManagerDefaultImpl implements GroupManager
 		{
 			return new ErrorMessage(502030, e);
 		}
-		return new GeneralMessage(id, null);
+		return new GeneralMessage(0, null);
 	}
 
 	@Override
@@ -101,7 +102,7 @@ public class GroupManagerDefaultImpl implements GroupManager
 		{
 			return new ErrorMessage(502040, e);
 		}
-		return new GeneralMessage(id, null);
+		return new GroupMessage(group);
 	}
 
 	@Override
@@ -121,6 +122,11 @@ public class GroupManagerDefaultImpl implements GroupManager
 			return new ErrorMessage(502050, e);
 		}
 		return new GroupMessage(groups);
+	}
+
+	public void setGroupDAO(GroupDAO groupDAO)
+	{
+		this.groupDAO = groupDAO;
 	}
 
 }

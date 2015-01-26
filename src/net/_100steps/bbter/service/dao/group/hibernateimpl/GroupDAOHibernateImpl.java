@@ -1,27 +1,28 @@
-package net._100steps.bbter.service.dao.departments.hibernateimpl;
+package net._100steps.bbter.service.dao.group.hibernateimpl;
 
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import net._100steps.bbter.service.dao.DAOException;
-import net._100steps.bbter.service.dao.departments.DepartmentDAO;
-import net._100steps.bbter.service.dao.model.Department;
+import net._100steps.bbter.service.dao.group.GroupDAO;
+import net._100steps.bbter.service.model.Group;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 
-public class DepartmentDAOHibernateImpl implements DepartmentDAO
+public class GroupDAOHibernateImpl implements GroupDAO
 {
+
 	private SessionFactory sessionFactory;
 
 	@Override
 	@Transactional
-	public void save(Department department)
+	public void save(Group Group)
 	{
 		try
 		{
-			sessionFactory.getCurrentSession().save(department);
+			sessionFactory.getCurrentSession().save(Group);
 		}
 		catch (HibernateException e)
 		{
@@ -31,11 +32,11 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 
 	@Override
 	@Transactional
-	public void update(Department department)
+	public void update(Group Group)
 	{
 		try
 		{
-			sessionFactory.getCurrentSession().update(department);
+			sessionFactory.getCurrentSession().update(Group);
 		}
 		catch (HibernateException e)
 		{
@@ -45,11 +46,11 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 
 	@Override
 	@Transactional
-	public Department getById(int id)
+	public Group getById(int id)
 	{
 		try
 		{
-			return (Department) sessionFactory.getCurrentSession().get(Department.class, id);
+			return (Group) sessionFactory.getCurrentSession().get(Group.class, id);
 		}
 		catch (HibernateException e)
 		{
@@ -60,11 +61,11 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<Department> getAll()
+	public List<Group> getAll()
 	{
 		try
 		{
-			return (List<Department>) sessionFactory.getCurrentSession().createQuery("select from Department").list();
+			return (List<Group>) sessionFactory.getCurrentSession().createQuery("from Group").list();
 		}
 		catch (HibernateException e)
 		{
@@ -76,7 +77,7 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 	@Transactional
 	public void delete(int id)
 	{
-		if(sessionFactory.getCurrentSession().createQuery("delete from Department as d where d.id=?").setInteger(0, id).executeUpdate() == 0)
+		if(sessionFactory.getCurrentSession().createQuery("delete from Group as d where d.id=?").setInteger(0, id).executeUpdate() == 0)
 			throw new DAOException("记录不存在");
 	}
 	

@@ -15,6 +15,7 @@ public class ErrorMessage implements Message
 	
 	public ErrorMessage(int errorCode, Exception exception)
 	{
+		exception.printStackTrace();
 		msgCode = errorCode;
 		this.exception = exception;
 	}

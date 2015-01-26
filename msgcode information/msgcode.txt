@@ -18,3 +18,4 @@ msgCode意义划分：
 	为00时，表示其他模块
 	为01时，表示用户模块，其他位参见（usermsgcode.txt）
 	为02时，表示组别模块，其他位参见（groupmsgcode.txt）
+	为03时，表示部门模块，其他位参见（departmentmsgcode.txt）

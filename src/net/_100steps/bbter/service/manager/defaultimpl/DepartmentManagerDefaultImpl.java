@@ -3,13 +3,13 @@ package net._100steps.bbter.service.manager.defaultimpl;
 import java.util.List;
 
 import net._100steps.bbter.service.dao.DAOException;
-import net._100steps.bbter.service.dao.departments.DepartmentDAO;
-import net._100steps.bbter.service.dao.model.Department;
+import net._100steps.bbter.service.dao.department.DepartmentDAO;
 import net._100steps.bbter.service.manager.DepartmentManager;
 import net._100steps.bbter.service.message.Message;
 import net._100steps.bbter.service.message.impl.DepartmentMessage;
 import net._100steps.bbter.service.message.impl.ErrorMessage;
 import net._100steps.bbter.service.message.impl.GeneralMessage;
+import net._100steps.bbter.service.model.Department;
 
 public class DepartmentManagerDefaultImpl implements DepartmentManager
 {
@@ -19,47 +19,48 @@ public class DepartmentManagerDefaultImpl implements DepartmentManager
 	@Override
 	public Message addDepartment(String name)
 	{
-		Department Department = new Department();
-		Department.setName(name);
+		Department department = new Department();
+		department.setName(name);
 		if(name.length() > 50)
-			return new ErrorMessage(202010);
+			return new ErrorMessage(203010);
 		try
 		{
-			departmentDAO.save(Department);
+			departmentDAO.save(department);
 		}
 		catch(DAOException e)
 		{
-			return new ErrorMessage(402010, e);
+			return new ErrorMessage(403010, e);
 		}
 		catch(RuntimeException e)
 		{
-			return new ErrorMessage(502010, e);
+			return new ErrorMessage(503010, e);
 		}
-		return new DepartmentMessage(Department);
+		return new DepartmentMessage(department);
 	}
 
 	@Override
 	public Message changeDepartment(int id, String name)
 	{
 		if(name.length() > 50)
-			return new ErrorMessage(202020);
-		Department Department;
+			return new ErrorMessage(203020);
+		Department department;
 		try
 		{
-			Department = departmentDAO.getById(id);
-			if(Department == null)
-				return new ErrorMessage(302020);
-			departmentDAO.save(Department);
+			department = departmentDAO.getById(id);
+			if(department == null)
+				return new ErrorMessage(303020);
+			department.setName(name);
+			departmentDAO.update(department);
 		}
 		catch(DAOException e)
 		{
-			return new ErrorMessage(402020, e);
+			return new ErrorMessage(403020, e);
 		}
 		catch(RuntimeException e)
 		{
-			return new ErrorMessage(502020, e);
+			return new ErrorMessage(503020, e);
 		}
-		return new DepartmentMessage(Department);
+		return new DepartmentMessage(department);
 	}
 
 	@Override
@@ -68,60 +69,65 @@ public class DepartmentManagerDefaultImpl implements DepartmentManager
 		try
 		{
 			if(id < 0)
-				return new ErrorMessage(202030);
+				return new ErrorMessage(203030);
 			departmentDAO.delete(id);
 		}
 		catch(DAOException e)
 		{
-			return new ErrorMessage(402030, e);
+			return new ErrorMessage(403030, e);
 		}
 		catch(RuntimeException e)
 		{
-			return new ErrorMessage(502030, e);
+			return new ErrorMessage(503030, e);
 		}
-		return new GeneralMessage(id, null);
+		return new GeneralMessage(0, null);
 	}
 
 	@Override
 	public Message getDepartment(int id)
 	{
-		Department Department;
+		Department department;
 		try
 		{
 			if(id < 0)
-				return new ErrorMessage(202040);
-			Department = departmentDAO.getById(id);
-			if(Department == null)
-				return new ErrorMessage(302040);
+				return new ErrorMessage(203040);
+			department = departmentDAO.getById(id);
+			if(department == null)
+				return new ErrorMessage(303040);
 		}
 		catch(DAOException e)
 		{
-			return new ErrorMessage(402040, e);
+			return new ErrorMessage(403040, e);
 		}
 		catch(RuntimeException e)
 		{
-			return new ErrorMessage(502040, e);
+			return new ErrorMessage(503040, e);
 		}
-		return new GeneralMessage(id, null);
+		return new DepartmentMessage(department);
 	}
 
 	@Override
 	public Message getAllDepartments()
 	{
-		List<Department> Departments;
+		List<Department> departments;
 		try
 		{
-			Departments = departmentDAO.getAll();
+			departments = departmentDAO.getAll();
 		}
 		catch(DAOException e)
 		{
-			return new ErrorMessage(402050, e);
+			return new ErrorMessage(403050, e);
 		}
 		catch(RuntimeException e)
 		{
-			return new ErrorMessage(502050, e);
+			return new ErrorMessage(503050, e);
 		}
-		return new DepartmentMessage(Departments);
+		return new DepartmentMessage(departments);
+	}
+	
+	public void setDepartmentDAO(DepartmentDAO departmentDAO)
+	{
+		this.departmentDAO = departmentDAO;
 	}
 
 }

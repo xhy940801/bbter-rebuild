@@ -1,12 +1,14 @@
-package net._100steps.bbter.service.dao.model;
+package net._100steps.bbter.service.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="departments")
 public class Department
 {
 	private int id;

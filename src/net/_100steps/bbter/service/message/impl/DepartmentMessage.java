@@ -3,8 +3,8 @@ package net._100steps.bbter.service.message.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import net._100steps.bbter.service.dao.model.Department;
 import net._100steps.bbter.service.message.Message;
+import net._100steps.bbter.service.model.Department;
 
 public class DepartmentMessage implements Message
 {
