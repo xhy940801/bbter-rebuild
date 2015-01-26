@@ -7,6 +7,10 @@ public interface UserDetailDAO {
 	
 	public void update(UserDetail userDetail);
 	
+	public void delete(UserDetail userDetail);
 	
+	public UserDetail getUserDetailById(int id);
+	
+	public UserDetail getUserDetailByUserId(int userId);
 	
 }

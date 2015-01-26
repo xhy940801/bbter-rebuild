@@ -17,6 +17,11 @@ public interface UserDAO {
 	 */
 	
 	public void update(User user);
+	/**
+	 * 根据学号获得用户信息
+	 * @param studentNumber
+	 */
+	public User getUserByStudentNumber(String studentNumber);
 	
 	/**
 	 * 根据id获得User信息
@@ -38,5 +43,9 @@ public interface UserDAO {
 	 * @return User
 	 */
 	public User getUserByGroupId(int groupId);
-	
+	/**
+	 * 删除
+	 * @param userId
+	 */
+	public void delete(User user);
 }

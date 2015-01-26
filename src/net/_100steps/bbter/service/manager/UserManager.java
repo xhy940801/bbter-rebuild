@@ -1,5 +1,7 @@
 package net._100steps.bbter.service.manager;
 
+import java.util.Map;
+
 import net._100steps.bbter.service.message.Message;
 
 public interface UserManager {
@@ -9,7 +11,8 @@ public interface UserManager {
 	 * @param password
 	 * @return
 	 */
-	public Message register(String studentNumber,String password);
+	public Message register(String studentNumber,
+			String password,String email,int groupId,int departmentId,int status);
 	
 	/**
 	 * 删除用户（回收站）
@@ -24,7 +27,7 @@ public interface UserManager {
 	 * @param infos
 	 * @return
 	 */
-	public Message complete(int userId,String[] infos);
+	public Message complete(int userId,Map<String, Object> details);
 	
 	/**
 	 * 修改人员信息
@@ -32,7 +35,7 @@ public interface UserManager {
 	 * @param infos
 	 * @return
 	 */
-	public Message update(int userId,String[] infos);
+	public Message update(int userId,Map<String, Object> details);
 	
 	/**
 	 * 彻底删除人员信息
@@ -63,13 +66,18 @@ public interface UserManager {
 	 * @return
 	 */
 	public Message changeDepartment(int userId,int department);
-	
+	/**
+	 * 生成找回密码时的key
+	 * @param studentNumber
+	 * @return
+	 */
+	public Message getFindPasswordKey(String studentNumber);
 	/**
 	 * 找回密码
 	 * @param userId
 	 * @return
 	 */
-	public Message findPassword(int userId);
+	public Message findPassword(String key,String password);
 	
 	/**
 	 * 重置密码
@@ -77,5 +85,13 @@ public interface UserManager {
 	 * @param password
 	 * @return
 	 */
-	public Message resetPassword(int userId,String password);
+	public Message resetPassword(int userId,String oldPassword,String newPassword);
+	
+	/**
+	 * 登陆
+	 * @param studentNumber
+	 * @param password
+	 * @return
+	 */
+	public Message login(String studentNumber,String password);
 }

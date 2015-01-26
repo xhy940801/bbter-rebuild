@@ -1,6 +1,6 @@
 package net._100steps.bbter.service.model;
 
-import java.sql.Date;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +30,20 @@ public class UserDetail {
 	private String remark;
 	private Date created;
 	private Date modified;
+	private int userId;
 	
+	/**
+	 * @return the userId
+	 */
+	public int getUserId() {
+		return userId;
+	}
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public void setId(int id)
@@ -82,11 +95,12 @@ public class UserDetail {
 	{
 		return room;
 	}
-	@Column(name = "college_id")
+	
 	public void setCollegeId(int collegeId)
 	{
 		this.collegeId = collegeId;
 	}
+	@Column(name = "college_id")
 	public int getCollegeId()
 	{
 		return collegeId;
@@ -99,11 +113,12 @@ public class UserDetail {
 	{
 		return major;
 	}
-	@Column(name = "class")
+	
 	public void setClassField(String classField)
 	{
 		this.classField = classField;
 	}
+	@Column(name = "class")
 	public String getClassField()
 	{
 		return this.classField;
