@@ -16,7 +16,8 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:applicationContext.xml,
-			classpath:beans.xml
+			classpath:daobeans.xml,
+			classpath:managerbeans.xml,
 			classpath:database.xml
 		</param-value>
 	</context-param>

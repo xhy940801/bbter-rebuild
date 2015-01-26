@@ -4,8 +4,8 @@ import net._100steps.bbter.service.message.Message;
 
 public class GeneralMessage implements Message
 {
-	private int msgCode;
-	private Object msg;
+	private final int msgCode;
+	private final Object msg;
 	
 	public GeneralMessage(int msgCode, Object msg)
 	{
@@ -19,18 +19,8 @@ public class GeneralMessage implements Message
 		return msgCode;
 	}
 
-	public void setMsgCode(int msgCode)
-	{
-		this.msgCode = msgCode;
-	}
-
 	public Object getMsg()
 	{
 		return msg;
-	}
-
-	public void setMsg(Object msg)
-	{
-		this.msg = msg;
 	}
 }

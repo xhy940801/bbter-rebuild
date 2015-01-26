@@ -6,10 +6,11 @@ public class DAOException extends RuntimeException
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1240507826813570193L;
+	private static final long serialVersionUID = 825887601636554279L;
 
 	public DAOException()
 	{
+		
 	}
 
 	public DAOException(String message)
@@ -27,8 +28,7 @@ public class DAOException extends RuntimeException
 		super(message, cause);
 	}
 
-	public DAOException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace)
+	public DAOException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
 	{
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
