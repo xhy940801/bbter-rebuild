@@ -3,10 +3,12 @@ package net._100steps.bbter.service.dao.user.hibernateimpl;
 
 
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.HibernateException;
+import org.springframework.transaction.annotation.Transactional;
 
 import net._100steps.bbter.service.dao.DAOException;
 import net._100steps.bbter.service.dao.user.UserDAO;
@@ -16,6 +18,7 @@ public class UserDAOHibernateImpl implements UserDAO{
 	
 	private SessionFactory sessionFactory;
 	@Override
+	@Transactional
 	public void save(User user) {
 		// TODO Auto-generated method stub
 		try{
@@ -26,72 +29,81 @@ public class UserDAOHibernateImpl implements UserDAO{
 	}
 
 	@Override
+	@Transactional
 	public void update(User user) {
 		// TODO Auto-generated method stub
 		try{
-		sessionFactory.getCurrentSession().update(user);
+			sessionFactory.getCurrentSession().update(user);
 		}catch(HibernateException e){
 			throw new DAOException(e);
 		}
 	}
 	@Override
+	@Transactional
 	public User getUserByStudentNumber(String studentNumber) {
 		// TODO Auto-generated method stub
 		try {
-			return (User)sessionFactory.getCurrentSession().get(UserDAO.class, studentNumber);
+			return (User)sessionFactory.getCurrentSession().createQuery("from User as u where u.studentNumber = ?").setString(0, studentNumber).uniqueResult();
 		} catch (HibernateException e) {
 			// TODO: handle exception
 			throw new DAOException(e);
 		}
 	}
 	@Override
+	@Transactional
 	public User getUserById(int id) {
 		// TODO Auto-generated method stub
 		try{
-		return (User)sessionFactory.getCurrentSession().get(UserDAO.class, id);
+			return (User)sessionFactory.getCurrentSession().get(User.class, id);
 		}catch(HibernateException e){
 			throw new DAOException(e);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public User getUserByDepartmentId(int departmentId) {
+	@Transactional
+	public List<User> getUsersByDepartmentId(int departmentId) {
 		// TODO Auto-generated method stub
-		return null;
+		try {
+			return (List<User>)sessionFactory.getCurrentSession().createQuery("from User as u where u.departmentId = ?").setInteger(0, departmentId).list();
+		} catch (HibernateException e) {
+			// TODO: handle exception
+			throw new DAOException(e);
+		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public User getUserByGroupId(int groupId) {
+	@Transactional
+	public List<User> getUsersByGroupId(int groupId) {
 		// TODO Auto-generated method stub
-		return null;
+		try {
+			return (List<User>)sessionFactory.getCurrentSession().createQuery("from User as u where u.groupId = ?").setInteger(0, groupId).list();
+		} catch (HibernateException e) {
+			// TODO: handle exception
+			throw new DAOException(e);
+		}
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<User> getUsersByStatus(User.Status status) {
+		try {
+			return (List<User>) sessionFactory.getCurrentSession().createQuery("from User as u where u.status=?").setString(0, status.toString()).uniqueResult();
+		} catch (HibernateException e) {
+			// TODO: handle exception
+			throw new DAOException(e);
+		}
 	}
 
 	public void setSessionFactory(SessionFactory sessionFactory)
 	{
-		try {
-			this.sessionFactory = sessionFactory;
-		} catch (HibernateException e) {
-			// TODO: handle exception
-			throw new DAOException(e);
-		}
-		
+		this.sessionFactory = sessionFactory;
 	}
-	/*@Override
-	public User getUserByDepartmentId(int departmentId) {
-		// TODO Auto-generated method stub
-		Session session = (Session) sessionFactory.getCurrentSession();
-		Query query = session.createQuery("from User where User.departmentId = ?");
-		query.setInteger(0, departmentId);
-		
-		return null;
-	}
-
+	
 	@Override
-	public User getUserByGroupId(int groupId) {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
-	@Override
+	@Transactional
 	public void delete(User user)
 	{
 		try {

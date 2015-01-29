@@ -20,5 +20,14 @@
 		class="net._100steps.bbter.service.dao.department.hibernateimpl.DepartmentDAOHibernateImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	<bean id="userDAO"
+		class="net._100steps.bbter.service.dao.user.hibernateimpl.UserDAOHibernateImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="userDetailDAO"
+		class="net._100steps.bbter.service.dao.user.hibernateimpl.UserDetailDAOHibernateImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
 
 </beans>

@@ -3,6 +3,7 @@ package net._100steps.bbter.service.manager;
 import java.util.Map;
 
 import net._100steps.bbter.service.message.Message;
+import net._100steps.bbter.service.model.User;
 
 public interface UserManager {
 	/**
@@ -12,7 +13,7 @@ public interface UserManager {
 	 * @return
 	 */
 	public Message register(String studentNumber,
-			String password,String email,int groupId,int departmentId,int status);
+			String password,String email,int groupId,int departmentId,User.Status status);
 	
 	/**
 	 * 删除用户（回收站）
@@ -94,4 +95,18 @@ public interface UserManager {
 	 * @return
 	 */
 	public Message login(String studentNumber,String password);
+
+	/**
+	 * 获得某一个部门的全部人员
+	 * @param departmentId
+	 * @return
+	 */
+	public Message getUsersByDepartmentId(int departmentId);
+	/**
+	 * 获得某一个组的全部用户
+	 * @param groupId
+	 * @return
+	 */
+	public Message getUsersByGroupId(int groupId);
+	
 }

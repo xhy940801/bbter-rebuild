@@ -92,7 +92,7 @@ public class User
 	{
 		this.status = status;
 	}
-
+	@Column(name="department_id")
 	public int getDepartmentId()
 	{
 		return departmentId;
@@ -102,7 +102,7 @@ public class User
 	{
 		this.departmentId = departmentId;
 	}
-
+	@Column(name="group_id")
 	public int getGroupId()
 	{
 		return groupId;

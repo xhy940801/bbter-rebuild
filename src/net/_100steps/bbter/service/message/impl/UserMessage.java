@@ -1,16 +1,26 @@
 package net._100steps.bbter.service.message.impl;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import net._100steps.bbter.service.message.Message;
 import net._100steps.bbter.service.model.User;
 
 public class UserMessage implements Message {
 	private int msgCode;
-	private User user;
+	private final List<User> users;
 	
 	public UserMessage(int msgCode,User user)
 	{
 		this.msgCode = msgCode;
-		this.user = user;
+		users = new ArrayList<User>();
+		users.add(user);
+	}
+	public UserMessage(List<User> users)
+	{
+		this.msgCode = 0;
+		this.users = users;
 	}
 	@Override
 	public int getMsgCode() {

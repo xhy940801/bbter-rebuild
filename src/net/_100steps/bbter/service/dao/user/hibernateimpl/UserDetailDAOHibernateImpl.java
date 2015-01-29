@@ -3,6 +3,7 @@ package net._100steps.bbter.service.dao.user.hibernateimpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import net._100steps.bbter.service.dao.DAOException;
 import net._100steps.bbter.service.dao.user.UserDetailDAO;
@@ -11,6 +12,7 @@ import net._100steps.bbter.service.model.UserDetail;
 public class UserDetailDAOHibernateImpl implements UserDetailDAO {
 	private SessionFactory sessionFactory;
 	@Override
+	@Transactional
 	public void save(UserDetail userDetail) {
 		// TODO Auto-generated method stub
 		try {
@@ -23,6 +25,7 @@ public class UserDetailDAOHibernateImpl implements UserDetailDAO {
 	}
 
 	@Override
+	@Transactional
 	public void update(UserDetail userDetail) {
 		// TODO Auto-generated method stub
 		try {
@@ -33,19 +36,19 @@ public class UserDetailDAOHibernateImpl implements UserDetailDAO {
 		}
 		
 	}
+	@Transactional
 	public void delete(UserDetail userDetail)
 	{
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			session.beginTransaction();
 			session.delete(userDetail);
-			session.getTransaction().commit();
 		} catch (HibernateException e) {
 			// TODO: handle exception
 			throw new DAOException();
 		}
 	}
 	@Override
+	@Transactional
 	public UserDetail getUserDetailById(int id){
 		try {
 			return (UserDetail)sessionFactory .getCurrentSession().get(UserDetail.class, id);
@@ -55,14 +58,23 @@ public class UserDetailDAOHibernateImpl implements UserDetailDAO {
 		}
 	}
 	@Override
+	@Transactional
 	public UserDetail getUserDetailByUserId(int userId)
 	{
 		try {
-			return (UserDetail)sessionFactory.getCurrentSession().get(UserDetail.class,userId);
+			return (UserDetail)sessionFactory.getCurrentSession()
+					.createQuery("from UserDetail as u where u.userId = ?")
+					.setInteger(0, userId)
+					.uniqueResult();
 		} catch (HibernateException e) {
 			// TODO: handle exception
 			throw new DAOException(e);
 		}
+	}
+	
+	public void setSessionFactory(SessionFactory sessionFactory)
+	{
+		this.sessionFactory = sessionFactory;
 	}
 
 }

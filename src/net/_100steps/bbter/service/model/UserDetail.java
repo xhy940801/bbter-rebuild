@@ -19,7 +19,7 @@ public class UserDetail
 {
 	static public enum Sex
 	{
-		MALE, FAMALE
+		MALE, FAMALE,UNKNOW
 	}
 	
 	private int id;
@@ -46,6 +46,7 @@ public class UserDetail
 	/**
 	 * @return the userId
 	 */
+	@Column(name="user_id")
 	public int getUserId() {
 		return userId;
 	}
@@ -55,8 +56,6 @@ public class UserDetail
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public void setId(int id)
 	{
 		this.id = id;

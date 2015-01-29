@@ -20,5 +20,10 @@
 		class="net._100steps.bbter.service.manager.defaultimpl.GroupManagerDefaultImpl">
 		<property name="groupDAO" ref="groupDAO"></property>
 	</bean>
+	<bean id="userManager"
+		class="net._100steps.bbter.service.manager.defaultimpl.UserManagerImpl">
+		<property name="userDAO" ref="userDAO"></property>
+		<property name="userDetailDAO" ref="userDetailDAO"></property>
+	</bean>
 
 </beans>

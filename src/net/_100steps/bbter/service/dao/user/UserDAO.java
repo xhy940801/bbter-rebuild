@@ -1,5 +1,6 @@
 package net._100steps.bbter.service.dao.user;
 
+import java.util.List;
 import net._100steps.bbter.service.model.User;
 
 public interface UserDAO {
@@ -35,14 +36,22 @@ public interface UserDAO {
 	 * @param int departmentId
 	 * @return User 
 	 */
-	public User getUserByDepartmentId(int departmentId);
+	public List<User> getUsersByDepartmentId(int departmentId);
 	
 	/**
 	 * 根据所属Group id获得User信息
 	 * @param int groupId
 	 * @return User
 	 */
-	public User getUserByGroupId(int groupId);
+	public List<User> getUsersByGroupId(int groupId);
+	
+	/**
+	 * 获得不同状态的user
+	 * @param status
+	 * @return
+	 */
+	public List<User> getUsersByStatus(User.Status status);
+	
 	/**
 	 * 删除
 	 * @param userId
