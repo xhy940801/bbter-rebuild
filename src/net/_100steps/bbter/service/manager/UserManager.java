@@ -1,5 +1,6 @@
 package net._100steps.bbter.service.manager;
 
+import java.util.List;
 import java.util.Map;
 
 import net._100steps.bbter.service.message.Message;
@@ -67,12 +68,14 @@ public interface UserManager {
 	 * @return
 	 */
 	public Message changeDepartment(int userId,int department);
+	
 	/**
 	 * 生成找回密码时的key
 	 * @param studentNumber
 	 * @return
 	 */
 	public Message getFindPasswordKey(String studentNumber);
+	
 	/**
 	 * 找回密码
 	 * @param userId
@@ -102,11 +105,19 @@ public interface UserManager {
 	 * @return
 	 */
 	public Message getUsersByDepartmentId(int departmentId);
+	
 	/**
 	 * 获得某一个组的全部用户
 	 * @param groupId
 	 * @return
 	 */
 	public Message getUsersByGroupId(int groupId);
+	
+	/**
+	 * 获得某一些用户的全部详细信息
+	 * @param userIds
+	 * @return
+	 */
+	public Message getUserDetailsByUserId(List<Integer> userIds);
 	
 }

@@ -1,32 +1,38 @@
 package net._100steps.bbter.service.manager.defaultimpl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.HibernateException;
-import org.springframework.transaction.annotation.Transactional;
-
 import net._100steps.bbter.service.dao.DAOException;
 import net._100steps.bbter.service.dao.GeneralException;
+import net._100steps.bbter.service.dao.department.DepartmentDAO;
+import net._100steps.bbter.service.dao.group.GroupDAO;
 import net._100steps.bbter.service.dao.user.UserDAO;
 import net._100steps.bbter.service.dao.user.UserDetailDAO;
 import net._100steps.bbter.service.manager.UserManager;
 import net._100steps.bbter.service.message.Message;
 import net._100steps.bbter.service.message.impl.ErrorMessage;
 import net._100steps.bbter.service.message.impl.GeneralMessage;
-import net._100steps.bbter.service.message.impl.GroupMessage;
+import net._100steps.bbter.service.message.impl.UserInfoMessage;
 import net._100steps.bbter.service.message.impl.UserMessage;
+import net._100steps.bbter.service.model.Department;
 import net._100steps.bbter.service.model.Group;
 import net._100steps.bbter.service.model.User;
 import net._100steps.bbter.service.model.UserDetail;
+import net._100steps.bbter.service.model.UserInfo;
 import net._100steps.bbter.service.util.AESUtil;
 import net._100steps.bbter.service.util.MD5Util;
 import net._100steps.bbter.service.util.StringVerify;
 
+import org.springframework.transaction.annotation.Transactional;
+
 public class UserManagerImpl implements UserManager{
 	private UserDAO userDAO;
 	private UserDetailDAO userDetailDAO;
+	private DepartmentDAO departmentDAO;
+	private GroupDAO groupDAO;
 	private String verificationString;
 	private Long timelimit;
 	private final int detailFieldsNumber; 
@@ -36,6 +42,14 @@ public class UserManagerImpl implements UserManager{
 		verificationString = "this is bbter";
 		timelimit = (long) (1000 * 60 * 10);
 		detailFieldsNumber = 20;
+	}
+	public void setDepartmentDAO(DepartmentDAO departmentDAO)
+	{
+		this.departmentDAO = departmentDAO;
+	}
+	public void setGroupDAO(GroupDAO groupDAO)
+	{
+		this.groupDAO = groupDAO;
 	}
 	@Override
 	public Message register(String studentNumber, String password,
@@ -422,6 +436,31 @@ public class UserManagerImpl implements UserManager{
 	{
 		this.userDetailDAO = userDetailDAO;
 	}
-	
-
+	@Override
+	public Message getUserDetailsByUserId(List<Integer> userIds)
+	{
+		List<UserInfo> userInfos = new ArrayList<UserInfo>(userIds.size());
+		try
+		{
+			for(Integer id : userIds)
+			{
+				User user = userDAO.getUserById(id);
+				if(user == null)
+					return new ErrorMessage(201130);
+				UserDetail userDetail = userDetailDAO.getUserDetailByUserId(id);
+				Group group = groupDAO.getById(user.getGroupId());
+				Department department = departmentDAO.getById(user.getGroupId());
+				userInfos.add(new UserInfo(user, userDetail, group, department));
+			}
+		}
+		catch(DAOException e)
+		{
+			return new ErrorMessage(401130, e);
+		}
+		catch(RuntimeException e)
+		{
+			return new ErrorMessage(501130, e);
+		}
+		return new UserInfoMessage(userInfos);
+	}
 }

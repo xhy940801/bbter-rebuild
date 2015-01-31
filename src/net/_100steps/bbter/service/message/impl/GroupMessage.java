@@ -5,6 +5,9 @@ import java.util.List;
 
 import net._100steps.bbter.service.message.Message;
 import net._100steps.bbter.service.model.Group;
+import net._100steps.bbter.service.util.commontree.CommonTree;
+import net._100steps.bbter.service.util.commontree.GeneralCommonTree;
+import net._100steps.bbter.service.util.commontree.GeneralNode;
 
 public class GroupMessage implements Message
 {
@@ -28,6 +31,23 @@ public class GroupMessage implements Message
 	public int getMsgCode()
 	{
 		return msgCode;
+	}
+
+	@Override
+	public CommonTree getDataTree()
+	{
+		CommonTree tree = new GeneralCommonTree();
+		List<CommonTree> groupDatas = new ArrayList<CommonTree>();
+		for(Group group : groups)
+		{
+			CommonTree groupData = new GeneralCommonTree();
+			groupData.add(new GeneralNode("id", group.getId()));
+			groupData.add(new GeneralNode("name", group.getName()));
+			groupDatas.add(groupData);
+		}
+		tree.add(new GeneralNode("code", msgCode));
+		tree.add(new GeneralNode("data", groupDatas));
+		return tree;
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import net._100steps.bbter.service.message.Message;
 import net._100steps.bbter.service.model.User;
+import net._100steps.bbter.service.util.commontree.CommonTree;
 
 public class UserMessage implements Message {
 	private int msgCode;
@@ -26,6 +27,12 @@ public class UserMessage implements Message {
 	public int getMsgCode() {
 		// TODO Auto-generated method stub
 		return msgCode;
+	}
+	@Override
+	public CommonTree getDataTree()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

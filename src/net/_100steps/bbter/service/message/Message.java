@@ -1,5 +1,7 @@
 package net._100steps.bbter.service.message;
 
+import net._100steps.bbter.service.util.commontree.CommonTree;
+
 public interface Message
 {
 	/**
@@ -8,4 +10,10 @@ public interface Message
 	 * @return 消息码
 	 */
 	public int getMsgCode();
+	
+	/**
+	 * 获取数据树(此树包含所有的信息)
+	 * @return 树
+	 */
+	public CommonTree getDataTree();
 }
