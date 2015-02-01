@@ -14,17 +14,6 @@ public class Group
 	private int id;
 	private String name;
 	
-	public Group()
-	{
-		
-	}
-	
-	public Group(Group group)
-	{
-		this.id = group.id;
-		this.name = group.name;
-	}
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId()

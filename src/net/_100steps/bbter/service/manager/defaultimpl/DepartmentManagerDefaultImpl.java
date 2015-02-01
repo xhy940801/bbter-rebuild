@@ -49,7 +49,6 @@ public class DepartmentManagerDefaultImpl implements DepartmentManager
 			department = departmentDAO.getById(id);
 			if(department == null)
 				return new ErrorMessage(303020);
-			department = new Department(department);
 			department.setName(name);
 			departmentDAO.update(department);
 		}
