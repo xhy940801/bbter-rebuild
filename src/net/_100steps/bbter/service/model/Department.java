@@ -14,6 +14,17 @@ public class Department
 	private int id;
 	private String name;
 	
+	public Department()
+	{
+		
+	}
+	
+	public Department(Department department)
+	{
+		this.id = department.id;
+		this.name = department.name;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId()
