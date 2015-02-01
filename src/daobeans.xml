@@ -11,6 +11,11 @@
 	http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+	<bean id="quickCache"
+		class="com.xiao.util.quickcache.ConcurrentQuickCache"
+		scope="prototype">
+	</bean>
+
 	<bean id="groupDAO"
 		class="net._100steps.bbter.service.dao.group.hibernateimpl.GroupDAOHibernateImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
@@ -19,11 +24,15 @@
 	<bean id="departmentDAO"
 		class="net._100steps.bbter.service.dao.department.hibernateimpl.DepartmentDAOHibernateImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="cache" ref="quickCache"></property>
 	</bean>
+	
 	<bean id="userDAO"
 		class="net._100steps.bbter.service.dao.user.hibernateimpl.UserDAOHibernateImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="cache" ref="quickCache"></property>
 	</bean>
+	
 	<bean id="userDetailDAO"
 		class="net._100steps.bbter.service.dao.user.hibernateimpl.UserDetailDAOHibernateImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
