@@ -11,18 +11,21 @@ import net._100steps.bbter.service.model.Group;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 
+import com.xiao.util.quickcache.QuickCache;
+
 public class GroupDAOHibernateImpl implements GroupDAO
 {
-
 	private SessionFactory sessionFactory;
+	private QuickCache<Integer, Group> cache;
 
 	@Override
 	@Transactional
-	public void save(Group Group)
+	public void save(Group group)
 	{
 		try
 		{
-			sessionFactory.getCurrentSession().save(Group);
+			sessionFactory.getCurrentSession().save(group);
+			cache.cache(group.getId(), group);
 		}
 		catch (HibernateException e)
 		{
@@ -32,11 +35,12 @@ public class GroupDAOHibernateImpl implements GroupDAO
 
 	@Override
 	@Transactional
-	public void update(Group Group)
+	public void update(Group group)
 	{
 		try
 		{
-			sessionFactory.getCurrentSession().update(Group);
+			sessionFactory.getCurrentSession().update(group);
+			cache.cache(group.getId(), group);
 		}
 		catch (HibernateException e)
 		{
@@ -50,7 +54,7 @@ public class GroupDAOHibernateImpl implements GroupDAO
 	{
 		try
 		{
-			return (Group) sessionFactory.getCurrentSession().get(Group.class, id);
+			return cache.get(id, (key)->{return (Group) sessionFactory.getCurrentSession().get(Group.class, key);});
 		}
 		catch (HibernateException e)
 		{
@@ -79,11 +83,17 @@ public class GroupDAOHibernateImpl implements GroupDAO
 	{
 		if(sessionFactory.getCurrentSession().createQuery("delete from Group as d where d.id=?").setInteger(0, id).executeUpdate() == 0)
 			throw new DAOException("记录不存在");
+		cache.remove(id);
 	}
 	
 	public void setSessionFactory(SessionFactory sessionFactory)
 	{
 		this.sessionFactory = sessionFactory;
+	}
+	
+	public void setCache(QuickCache<Integer, Group> cache)
+	{
+		this.cache = cache;
 	}
 
 }

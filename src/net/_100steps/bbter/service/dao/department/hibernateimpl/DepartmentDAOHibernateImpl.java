@@ -11,9 +11,12 @@ import net._100steps.bbter.service.model.Department;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 
+import com.xiao.util.quickcache.QuickCache;
+
 public class DepartmentDAOHibernateImpl implements DepartmentDAO
 {
 	private SessionFactory sessionFactory;
+	private QuickCache<Integer, Department> cache;
 
 	@Override
 	@Transactional
@@ -22,6 +25,7 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 		try
 		{
 			sessionFactory.getCurrentSession().save(department);
+			cache.cache(department.getId(), department);
 		}
 		catch (HibernateException e)
 		{
@@ -36,6 +40,7 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 		try
 		{
 			sessionFactory.getCurrentSession().update(department);
+			cache.cache(department.getId(), department);
 		}
 		catch (HibernateException e)
 		{
@@ -49,7 +54,7 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 	{
 		try
 		{
-			return (Department) sessionFactory.getCurrentSession().get(Department.class, id);
+			return cache.get(id, (key)->{return (Department) sessionFactory.getCurrentSession().get(Department.class, key);});
 		}
 		catch (HibernateException e)
 		{
@@ -78,11 +83,17 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 	{
 		if(sessionFactory.getCurrentSession().createQuery("delete from Department as d where d.id=?").setInteger(0, id).executeUpdate() == 0)
 			throw new DAOException("记录不存在");
+		cache.remove(id);
 	}
 	
 	public void setSessionFactory(SessionFactory sessionFactory)
 	{
 		this.sessionFactory = sessionFactory;
+	}
+
+	public void setCache(QuickCache<Integer, Department> cache)
+	{
+		this.cache = cache;
 	}
 
 }
