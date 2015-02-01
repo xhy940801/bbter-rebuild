@@ -48,6 +48,7 @@ public class GroupManagerDefaultImpl implements GroupManager
 			group = groupDAO.getById(id);
 			if(group == null)
 				return new ErrorMessage(302020);
+			group = new Group(group);
 			group.setName(name);
 			groupDAO.update(group);
 		}
