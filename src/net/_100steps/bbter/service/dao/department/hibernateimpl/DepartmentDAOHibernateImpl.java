@@ -70,14 +70,13 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 	@Transactional
 	public List<Department> getAll()
 	{
+		List<Department> departments = refDepartments == null ? null : refDepartments.get();
+		if(departments != null)
+			return departments;
 		try
 		{
-			List<Department> departments = refDepartments == null ? null : refDepartments.get();
-			if(departments == null)
-			{
-				departments = (List<Department>) sessionFactory.getCurrentSession().createQuery("from Department").list();
-				refDepartments = new SoftReference<List<Department>>(departments);
-			}
+			departments = (List<Department>) sessionFactory.getCurrentSession().createQuery("from Department").list();
+			refDepartments = new SoftReference<List<Department>>(departments);
 			return departments;
 		}
 		catch (HibernateException e)

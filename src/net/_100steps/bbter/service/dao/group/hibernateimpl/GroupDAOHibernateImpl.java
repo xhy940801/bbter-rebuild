@@ -71,12 +71,18 @@ public class GroupDAOHibernateImpl implements GroupDAO
 	public List<Group> getAll()
 	{
 		List<Group> groups = refGroups == null ? null : refGroups.get();
-		if(groups == null)
+		if(groups != null)
+			return groups;
+		try
 		{
 			groups = (List<Group>) sessionFactory.getCurrentSession().createQuery("from Department").list();
 			refGroups = new SoftReference<List<Group>>(groups);
+			return groups;
 		}
-		return groups;
+		catch (HibernateException e)
+		{
+			throw new DAOException(e);
+		}
 	}
 	
 	@Override
