@@ -1,5 +1,6 @@
 package net._100steps.bbter.service.dao.department.hibernateimpl;
 
+import java.lang.ref.SoftReference;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -17,15 +18,16 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 {
 	private SessionFactory sessionFactory;
 	private QuickCache<Integer, Department> cache;
+	private SoftReference<List<Department>> refDepartments;
 
 	@Override
 	@Transactional
 	public void save(Department department)
 	{
+		refDepartments = null;
 		try
 		{
 			sessionFactory.getCurrentSession().save(department);
-			cache.cache(department.getId(), department);
 		}
 		catch (HibernateException e)
 		{
@@ -37,10 +39,11 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 	@Transactional
 	public void update(Department department)
 	{
+		cache.remove(department.getId());
+		refDepartments = null;
 		try
 		{
 			sessionFactory.getCurrentSession().update(department);
-			cache.cache(department.getId(), department);
 		}
 		catch (HibernateException e)
 		{
@@ -69,7 +72,13 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 	{
 		try
 		{
-			return (List<Department>) sessionFactory.getCurrentSession().createQuery("from Department").list();
+			List<Department> departments = refDepartments == null ? null : refDepartments.get();
+			if(departments == null)
+			{
+				departments = (List<Department>) sessionFactory.getCurrentSession().createQuery("from Department").list();
+				refDepartments = new SoftReference<List<Department>>(departments);
+			}
+			return departments;
 		}
 		catch (HibernateException e)
 		{
@@ -82,6 +91,7 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 	public void delete(int id)
 	{
 		cache.remove(id);
+		refDepartments = null;
 		try
 		{
 			if(sessionFactory.getCurrentSession().createQuery("delete from Department as d where d.id=?").setInteger(0, id).executeUpdate() == 0)

@@ -1,5 +1,6 @@
 package net._100steps.bbter.service.dao.group.hibernateimpl;
 
+import java.lang.ref.SoftReference;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -17,15 +18,16 @@ public class GroupDAOHibernateImpl implements GroupDAO
 {
 	private SessionFactory sessionFactory;
 	private QuickCache<Integer, Group> cache;
+	private SoftReference<List<Group>> refGroups;
 
 	@Override
 	@Transactional
 	public void save(Group group)
 	{
+		refGroups = null;
 		try
 		{
 			sessionFactory.getCurrentSession().save(group);
-			cache.cache(group.getId(), group);
 		}
 		catch (HibernateException e)
 		{
@@ -37,10 +39,11 @@ public class GroupDAOHibernateImpl implements GroupDAO
 	@Transactional
 	public void update(Group group)
 	{
+		cache.remove(group.getId());
+		refGroups = null;
 		try
 		{
 			sessionFactory.getCurrentSession().update(group);
-			cache.cache(group.getId(), group);
 		}
 		catch (HibernateException e)
 		{
@@ -67,14 +70,13 @@ public class GroupDAOHibernateImpl implements GroupDAO
 	@Transactional
 	public List<Group> getAll()
 	{
-		try
+		List<Group> groups = refGroups == null ? null : refGroups.get();
+		if(groups == null)
 		{
-			return (List<Group>) sessionFactory.getCurrentSession().createQuery("from Group").list();
+			groups = (List<Group>) sessionFactory.getCurrentSession().createQuery("from Department").list();
+			refGroups = new SoftReference<List<Group>>(groups);
 		}
-		catch (HibernateException e)
-		{
-			throw new DAOException(e);
-		}
+		return groups;
 	}
 	
 	@Override
@@ -82,6 +84,7 @@ public class GroupDAOHibernateImpl implements GroupDAO
 	public void delete(int id)
 	{
 		cache.remove(id);
+		refGroups = null;
 		try
 		{
 			if(sessionFactory.getCurrentSession().createQuery("delete from Group as d where d.id=?").setInteger(0, id).executeUpdate() == 0)
