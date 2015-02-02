@@ -81,9 +81,16 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO
 	@Transactional
 	public void delete(int id)
 	{
-		if(sessionFactory.getCurrentSession().createQuery("delete from Department as d where d.id=?").setInteger(0, id).executeUpdate() == 0)
-			throw new DAOException("记录不存在");
 		cache.remove(id);
+		try
+		{
+			if(sessionFactory.getCurrentSession().createQuery("delete from Department as d where d.id=?").setInteger(0, id).executeUpdate() == 0)
+				throw new DAOException("记录不存在");
+		}
+		catch (HibernateException e)
+		{
+			throw new DAOException(e);
+		}
 	}
 	
 	public void setSessionFactory(SessionFactory sessionFactory)
