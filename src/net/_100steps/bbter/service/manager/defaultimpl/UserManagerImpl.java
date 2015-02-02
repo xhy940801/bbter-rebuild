@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import net._100steps.bbter.service.dao.DAOException;
-import net._100steps.bbter.service.dao.GeneralException;
 import net._100steps.bbter.service.dao.department.DepartmentDAO;
 import net._100steps.bbter.service.dao.group.GroupDAO;
 import net._100steps.bbter.service.dao.user.UserDAO;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net._100steps.bbter.service.dao;
+package net._100steps.bbter.service.manager.defaultimpl;
 
 /**
  * @author Administrator
