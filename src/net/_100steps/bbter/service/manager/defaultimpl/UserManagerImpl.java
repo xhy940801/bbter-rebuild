@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import net._100steps.bbter.service.dao.DAOException;
 import net._100steps.bbter.service.dao.department.DepartmentDAO;
 import net._100steps.bbter.service.dao.group.GroupDAO;
@@ -24,8 +26,6 @@ import net._100steps.bbter.service.model.UserInfo;
 import net._100steps.bbter.service.util.AESUtil;
 import net._100steps.bbter.service.util.MD5Util;
 import net._100steps.bbter.service.util.StringVerify;
-
-import org.springframework.transaction.annotation.Transactional;
 
 public class UserManagerImpl implements UserManager{
 	private UserDAO userDAO;
@@ -79,14 +79,14 @@ public class UserManagerImpl implements UserManager{
 	}
 
 	@Transactional
-	public UserDetail addDefaultUserDetail(int userId){
+	private UserDetail addDefaultUserDetail(int userId){
 		UserDetail userDetail = new UserDetail();
 		userDetail.setUserId(userId);
 		userDetail.setCreated(new Date());
 		return userDetail;
 	}
 	@Transactional
-	public User addUser(String studentNumber, String password,
+	private User addUser(String studentNumber, String password,
 			String email,int groupId,int departmentId,User.Status status){
 		User user = new User();
 		user.setStudentNumber(studentNumber);
@@ -410,6 +410,7 @@ public class UserManagerImpl implements UserManager{
 		}
 		return new UserMessage(users);
 	}
+	@Override
 	public Message getUsersByGroupId(int groupId)
 	{
 		List<User> users;

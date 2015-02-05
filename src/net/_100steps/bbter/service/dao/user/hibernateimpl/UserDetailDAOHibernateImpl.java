@@ -1,9 +1,10 @@
 package net._100steps.bbter.service.dao.user.hibernateimpl;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import net._100steps.bbter.service.dao.DAOException;
 import net._100steps.bbter.service.dao.user.UserDetailDAO;
