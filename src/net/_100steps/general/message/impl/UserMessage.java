@@ -1,12 +1,12 @@
-package net._100steps.bbter.service.message.impl;
+package net._100steps.general.message.impl;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net._100steps.bbter.service.message.Message;
 import net._100steps.bbter.service.model.User;
-import net._100steps.bbter.service.util.commontree.CommonTree;
+import net._100steps.general.message.Message;
+import net._100steps.general.util.commontree.CommonTree;
 
 public class UserMessage implements Message {
 	private int msgCode;

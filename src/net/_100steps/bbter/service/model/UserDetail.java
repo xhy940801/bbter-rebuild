@@ -198,6 +198,7 @@ public class UserDetail
 		this.shortMobile = shortMobile;
 	}
 
+	@Column(name="short_mobile")
 	public String getShortMobile()
 	{
 		return shortMobile;

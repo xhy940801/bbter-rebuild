@@ -5,29 +5,28 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.Transactional;
-
 import net._100steps.bbter.service.dao.DAOException;
 import net._100steps.bbter.service.dao.department.DepartmentDAO;
 import net._100steps.bbter.service.dao.group.GroupDAO;
 import net._100steps.bbter.service.dao.user.UserDAO;
 import net._100steps.bbter.service.dao.user.UserDetailDAO;
 import net._100steps.bbter.service.manager.UserManager;
-import net._100steps.bbter.service.message.Message;
-import net._100steps.bbter.service.message.impl.ErrorMessage;
-import net._100steps.bbter.service.message.impl.GeneralMessage;
-import net._100steps.bbter.service.message.impl.UserInfoMessage;
-import net._100steps.bbter.service.message.impl.UserMessage;
 import net._100steps.bbter.service.model.Department;
 import net._100steps.bbter.service.model.Group;
 import net._100steps.bbter.service.model.User;
 import net._100steps.bbter.service.model.UserDetail;
 import net._100steps.bbter.service.model.UserInfo;
-import net._100steps.bbter.service.util.AESUtil;
-import net._100steps.bbter.service.util.MD5Util;
-import net._100steps.bbter.service.util.StringVerify;
+import net._100steps.general.message.Message;
+import net._100steps.general.message.impl.ErrorMessage;
+import net._100steps.general.message.impl.GeneralMessage;
+import net._100steps.general.message.impl.UserInfoMessage;
+import net._100steps.general.message.impl.UserMessage;
+import net._100steps.general.util.AESUtil;
+import net._100steps.general.util.MD5Util;
+import net._100steps.general.util.StringVerify;
 
 public class UserManagerImpl implements UserManager{
+	private TransactionUtil tutil;
 	private UserDAO userDAO;
 	private UserDetailDAO userDetailDAO;
 	private DepartmentDAO departmentDAO;
@@ -40,7 +39,7 @@ public class UserManagerImpl implements UserManager{
 	{
 		verificationString = "this is bbter";
 		timelimit = (long) (1000 * 60 * 10);
-		detailFieldsNumber = 20;
+		detailFieldsNumber = 18;
 	}
 	public void setDepartmentDAO(DepartmentDAO departmentDAO)
 	{
@@ -52,13 +51,12 @@ public class UserManagerImpl implements UserManager{
 	}
 	@Override
 	public Message register(String studentNumber, String password,
-			String email,int groupId,int departmentId,User.Status status) {
-		// TODO Auto-generated method stub
+			String email,int groupId,int departmentId) {
+		User.Status status = User.Status.DEFAULT;
 		try {
 			if(userDAO.getUserByStudentNumber(studentNumber)!=null)
 				return new ErrorMessage(601012);
-		} catch (DAOException e) {
-			// TODO: handle exception
+		} catch (DAOException e) {e.printStackTrace();
 			return new  ErrorMessage(501010,e);
 		}
 		if(!StringVerify.checkLength(studentNumber, 12, 12))
@@ -70,44 +68,21 @@ public class UserManagerImpl implements UserManager{
 		password = MD5Util.md5(password);
 		User user;
 		try {
-			user = addUser(studentNumber, password, email, groupId, departmentId, status);
-		} catch (DAOException e) {
-			// TODO: handle exception
+			user = tutil.addUser(studentNumber, password, email, groupId, departmentId, status);
+		} catch (DAOException e) {e.printStackTrace();
 			return new ErrorMessage(501011,e);
+		} catch (GeneralException e) {
+			return new ErrorMessage(501012,e);
 		}
 		return new UserMessage(0,user);
 	}
 
-	@Transactional
-	private UserDetail addDefaultUserDetail(int userId){
-		UserDetail userDetail = new UserDetail();
-		userDetail.setUserId(userId);
-		userDetail.setCreated(new Date());
-		return userDetail;
-	}
-	@Transactional
-	private User addUser(String studentNumber, String password,
-			String email,int groupId,int departmentId,User.Status status){
-		User user = new User();
-		user.setStudentNumber(studentNumber);
-		user.setPassword(password);
-		user.setEmail(email);
-		user.setGroupId(groupId);
-		user.setDeparmentId(departmentId);
-		if(status == null)
-			status = User.Status.DEFAULT;
-		user.setStatus(status);
-		userDAO.save(user);
-		UserDetail userDetail = addDefaultUserDetail(user.getId());
-		userDetailDAO.save(userDetail);
-		return user;
-	}
 	/**
 	 * -1带便彻底删除 ,0 代表回收站，1表示存在
 	 */
 	@Override
 	public Message delete(int userId) {
-		// TODO Auto-generated method stub
+		
 		User user;
 		try{
 			user = userDAO.getUserById(userId);
@@ -125,9 +100,8 @@ public class UserManagerImpl implements UserManager{
 		}
 		return new UserMessage(0, user);
 	}
-	public UserDetail verifyUserDetail(Map<String, Object> details) throws Exception
+	public UserDetail verifyUserDetail(Map<String, Object> details, UserDetail userDetail) throws Exception
 	{
-		UserDetail userDetail = new UserDetail();
 		if(details.keySet().size()<detailFieldsNumber)
 			throw new Exception("101030");
 		System.out.println(details.get("id"));
@@ -148,13 +122,12 @@ public class UserManagerImpl implements UserManager{
 		String qq = (String) details.get("qq");
 		String weibo = (String) details.get("weibo");
 		String remark = (String) details.get("remark");
-		Date created = (Date) details.get("created");
-		Date modified = (Date) details.get("modified");
+		Date modified = new Date();
 		String userIdString = details.get("userId").toString();
 		boolean isNull = idString==null||name==null
 				||sex==null||portrait==null||dormitory == null||room == null||collegeId == null||major==null||classField == null
 				||birth == null||politics == null||origo == null||mobile==null||shortMobile==null||qq==null||weibo==null||remark==null
-				||created==null||modified==null||userIdString==null;
+				||modified==null||userIdString==null;
 		//存在一个为空，抛出数据不完整错误
 		if(isNull)
 			throw new GeneralException("101030");
@@ -179,7 +152,6 @@ public class UserManagerImpl implements UserManager{
 		userDetail.setQq(qq);
 		userDetail.setWeibo(weibo);
 		userDetail.setRemark(remark);
-		userDetail.setCreated(created);
 		userDetail.setModified(modified);
 		userDetail.setUserId(Integer.parseInt(userIdString));
 		return userDetail;
@@ -188,15 +160,27 @@ public class UserManagerImpl implements UserManager{
 	}
 	@Override
 	public Message complete(int userId, Map<String, Object> details) {
-		// TODO Auto-generated method stub
+		
 		UserDetail userDetail;
 		User user;
 		try {
 			user = userDAO.getUserById(userId);
 			if(user == null)
 				return new ErrorMessage(601030);
-			userDetail = verifyUserDetail(details);
-			userDetailDAO.update(userDetail);
+			userDetail = userDetailDAO.getUserDetailByUserId(user.getId());
+			if(userDetail == null)
+			{
+				userDetail = new UserDetail();
+				userDetail.setUserId(user.getId());
+				userDetail.setCreated(new Date());
+				userDetail = verifyUserDetail(details, userDetail);
+				userDetailDAO.save(userDetail);
+			}
+			else
+			{
+				userDetail = verifyUserDetail(details, userDetail);
+				userDetailDAO.update(userDetail);
+			}
 		} catch (GeneralException e) {
 			// TODO: handle exception
 			return new ErrorMessage(Integer.parseInt(e.getMessage()),e);
@@ -211,14 +195,17 @@ public class UserManagerImpl implements UserManager{
 	
 	@Override
 	public Message update(int userId, Map<String, Object> details) {
-		// TODO Auto-generated method stub
+		
 		UserDetail userDetail;
 		User user;
 		try {
 			user = userDAO.getUserById(userId);
 			if(user == null)
 				return new ErrorMessage(601040);
-			userDetail = verifyUserDetail(details);
+			userDetail = userDetailDAO.getUserDetailByUserId(user.getId());
+			if(userDetail == null)
+				return new ErrorMessage(601041);
+			userDetail = verifyUserDetail(details, userDetail);
 			userDetailDAO.update(userDetail);
 		} catch (GeneralException e) {
 			// TODO: handle exception
@@ -231,16 +218,10 @@ public class UserManagerImpl implements UserManager{
 		}
 		return new UserMessage(0, user);
 	}
-	@Transactional
-	public User deleteUser(User user,UserDetail userDetail)
-	{
-		userDAO.delete(user);
-		userDetailDAO.delete(userDetail);
-		return user;
-	}
+
 	@Override
 	public Message deleteForever(int userId) {
-		// TODO Auto-generated method stub
+		
 		User user;
 		UserDetail userDetail = new UserDetail();
 		try{
@@ -248,7 +229,7 @@ public class UserManagerImpl implements UserManager{
 		 userDetail = userDetailDAO.getUserDetailByUserId(user.getId());
 		if(user==null||userDetail==null)
 			return new ErrorMessage(601050);
-		user = deleteUser(user, userDetail);
+		user = tutil.deleteUser(user, userDetail);
 		}catch(DAOException e){
 			return new ErrorMessage(501050);
 		}
@@ -257,7 +238,7 @@ public class UserManagerImpl implements UserManager{
 
 	@Override
 	public Message addToTiYou(int userId) {
-		// TODO Auto-generated method stub
+		
 		User user;
 		try{
 			user = userDAO.getUserById(userId);
@@ -275,7 +256,7 @@ public class UserManagerImpl implements UserManager{
 
 	@Override
 	public Message changeGroup(int userId, int group) {
-		// TODO Auto-generated method stub
+		
 		User user;
 		try{
 		 user = userDAO.getUserById(userId);
@@ -291,7 +272,7 @@ public class UserManagerImpl implements UserManager{
 
 	@Override
 	public Message changeDepartment(int userId, int department) {
-		// TODO Auto-generated method stub
+		
 		User user;
 		try{
 		 user = userDAO.getUserById(userId);
@@ -329,7 +310,7 @@ public class UserManagerImpl implements UserManager{
 	
 	@Override
 	public Message findPassword(String key,String password) {
-		// TODO Auto-generated method stub
+		
 		String context;
 		User user;
 		try{
@@ -363,7 +344,7 @@ public class UserManagerImpl implements UserManager{
 
 	@Override
 	public Message resetPassword(int userId, String oldPassword,String newPassword) {
-		// TODO Auto-generated method stub
+		
 		User user;
 		try {
 			user = userDAO.getUserById(userId);
@@ -462,5 +443,9 @@ public class UserManagerImpl implements UserManager{
 			return new ErrorMessage(501130, e);
 		}
 		return new UserInfoMessage(userInfos);
+	}
+	public void setTutil(TransactionUtil tutil)
+	{
+		this.tutil = tutil;
 	}
 }

@@ -1,4 +1,4 @@
-package net._100steps.bbter.service.util.commontree;
+package net._100steps.general.util.commontree;
 
 public interface CommonTreeLinker
 {

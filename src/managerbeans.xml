@@ -10,6 +10,17 @@
 	http://www.springframework.org/schema/tx/spring-tx.xsd
 	http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<bean id="roFactory"
+		class="net._100steps.labelsys.service.api.rmi.ROFactory">
+		<constructor-arg value="//localhost"/>
+		<constructor-arg value="8199"/>
+	</bean>
+	
+	<bean id="entityRO"
+		factory-bean="roFactory" factory-method="getRO">
+		<constructor-arg value="EntityManagerRO"/>
+	</bean>
 
 	<bean id="departmentManager"
 		class="net._100steps.bbter.service.manager.defaultimpl.DepartmentManagerDefaultImpl">
@@ -20,10 +31,24 @@
 		class="net._100steps.bbter.service.manager.defaultimpl.GroupManagerDefaultImpl">
 		<property name="groupDAO" ref="groupDAO"></property>
 	</bean>
+	
+	<bean id="nameConf"
+		class="net._100steps.bbter.service.manager.defaultimpl.NameConf">
+	</bean>
+
+	<bean id="tutil"
+		class="net._100steps.bbter.service.manager.defaultimpl.TUtilImpl">
+		<property name="userDAO" ref="userDAO"></property>
+		<property name="userDetailDAO" ref="userDetailDAO"></property>
+		<property name="conf" ref="nameConf"></property>
+		<property name="entityRO" ref="entityRO"></property>
+	</bean>
+
 	<bean id="userManager"
 		class="net._100steps.bbter.service.manager.defaultimpl.UserManagerImpl">
 		<property name="userDAO" ref="userDAO"></property>
 		<property name="userDetailDAO" ref="userDetailDAO"></property>
+		<property name="tutil" ref="tutil"></property>
 	</bean>
 
 </beans>

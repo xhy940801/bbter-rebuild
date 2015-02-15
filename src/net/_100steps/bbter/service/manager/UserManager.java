@@ -3,8 +3,7 @@ package net._100steps.bbter.service.manager;
 import java.util.List;
 import java.util.Map;
 
-import net._100steps.bbter.service.message.Message;
-import net._100steps.bbter.service.model.User;
+import net._100steps.general.message.Message;
 
 public interface UserManager {
 	/**
@@ -14,7 +13,7 @@ public interface UserManager {
 	 * @return
 	 */
 	public Message register(String studentNumber,
-			String password,String email,int groupId,int departmentId,User.Status status);
+			String password,String email,int groupId,int departmentId);
 	
 	/**
 	 * 删除用户（回收站）

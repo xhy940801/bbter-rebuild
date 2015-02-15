@@ -1,6 +1,6 @@
 package net._100steps.bbter.service.manager;
 
-import net._100steps.bbter.service.message.Message;
+import net._100steps.general.message.Message;
 
 public interface DepartmentManager
 {

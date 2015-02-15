@@ -1,16 +1,21 @@
-package net._100steps.bbter.service.message.impl;
+package net._100steps.general.message.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net._100steps.bbter.service.message.Message;
 import net._100steps.bbter.service.model.Department;
-import net._100steps.bbter.service.util.commontree.CommonTree;
-import net._100steps.bbter.service.util.commontree.GeneralCommonTree;
-import net._100steps.bbter.service.util.commontree.GeneralNode;
+import net._100steps.general.message.Message;
+import net._100steps.general.util.commontree.CommonTree;
+import net._100steps.general.util.commontree.GeneralCommonTree;
+import net._100steps.general.util.commontree.GeneralNode;
 
 public class DepartmentMessage implements Message
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private final int msgCode;
 	private final List<Department> departments;
 
@@ -20,7 +25,7 @@ public class DepartmentMessage implements Message
 		departments = new ArrayList<Department>();
 		departments.add(department);
 	}
-	
+
 	public DepartmentMessage(List<Department> departments)
 	{
 		this.msgCode = 0;

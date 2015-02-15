@@ -3,7 +3,7 @@ package net._100steps.bbter.service.dao.department.hibernateimpl;
 import java.lang.ref.SoftReference;
 import java.util.List;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import net._100steps.bbter.service.dao.DAOException;
 import net._100steps.bbter.service.dao.department.DepartmentDAO;

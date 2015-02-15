@@ -1,25 +1,27 @@
-package net._100steps.bbter.service.message.impl;
+package net._100steps.general.message.impl;
 
-import net._100steps.bbter.service.message.Message;
-import net._100steps.bbter.service.util.commontree.CommonTree;
-import net._100steps.bbter.service.util.commontree.GeneralCommonTree;
-import net._100steps.bbter.service.util.commontree.GeneralNode;
+import net._100steps.general.util.commontree.CommonTree;
+import net._100steps.general.util.commontree.GeneralCommonTree;
+import net._100steps.general.util.commontree.GeneralNode;
 
-public class ErrorMessage implements Message
+public class ErrorMessage extends AbstractMessage
 {
-	private final int msgCode;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final Exception exception;
 
 	public ErrorMessage(int errorCode)
 	{
-		msgCode = errorCode;
+		super(errorCode);
 		this.exception = null;
 	}
 	
 	public ErrorMessage(int errorCode, Exception exception)
 	{
-		exception.printStackTrace();
-		msgCode = errorCode;
+		super(errorCode);
 		this.exception = exception;
 	}
 	
@@ -40,6 +42,12 @@ public class ErrorMessage implements Message
 		CommonTree tree = new GeneralCommonTree();
 		tree.add(new GeneralNode("code", msgCode));
 		return tree;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return super.toString() + exception;
 	}
 
 }

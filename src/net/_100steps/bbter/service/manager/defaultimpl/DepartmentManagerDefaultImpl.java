@@ -5,11 +5,11 @@ import java.util.List;
 import net._100steps.bbter.service.dao.DAOException;
 import net._100steps.bbter.service.dao.department.DepartmentDAO;
 import net._100steps.bbter.service.manager.DepartmentManager;
-import net._100steps.bbter.service.message.Message;
-import net._100steps.bbter.service.message.impl.DepartmentMessage;
-import net._100steps.bbter.service.message.impl.ErrorMessage;
-import net._100steps.bbter.service.message.impl.GeneralMessage;
 import net._100steps.bbter.service.model.Department;
+import net._100steps.general.message.Message;
+import net._100steps.general.message.impl.DepartmentMessage;
+import net._100steps.general.message.impl.ErrorMessage;
+import net._100steps.general.message.impl.GeneralMessage;
 
 public class DepartmentManagerDefaultImpl implements DepartmentManager
 {

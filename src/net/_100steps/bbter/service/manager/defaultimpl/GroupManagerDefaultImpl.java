@@ -5,11 +5,11 @@ import java.util.List;
 import net._100steps.bbter.service.dao.DAOException;
 import net._100steps.bbter.service.dao.group.GroupDAO;
 import net._100steps.bbter.service.manager.GroupManager;
-import net._100steps.bbter.service.message.Message;
-import net._100steps.bbter.service.message.impl.ErrorMessage;
-import net._100steps.bbter.service.message.impl.GeneralMessage;
-import net._100steps.bbter.service.message.impl.GroupMessage;
 import net._100steps.bbter.service.model.Group;
+import net._100steps.general.message.Message;
+import net._100steps.general.message.impl.ErrorMessage;
+import net._100steps.general.message.impl.GeneralMessage;
+import net._100steps.general.message.impl.GroupMessage;
 
 public class GroupManagerDefaultImpl implements GroupManager
 {

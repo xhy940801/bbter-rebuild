@@ -1,4 +1,4 @@
-package net._100steps.bbter.service.util;
+package net._100steps.general.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

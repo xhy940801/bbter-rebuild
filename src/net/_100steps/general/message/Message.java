@@ -1,8 +1,10 @@
-package net._100steps.bbter.service.message;
+package net._100steps.general.message;
 
-import net._100steps.bbter.service.util.commontree.CommonTree;
+import java.io.Serializable;
 
-public interface Message
+import net._100steps.general.util.commontree.CommonTree;
+
+public interface Message extends Serializable
 {
 	/**
 	 * 获取消息码
