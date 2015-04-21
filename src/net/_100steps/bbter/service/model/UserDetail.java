@@ -42,6 +42,7 @@ public class UserDetail
 	private Date created;
 	private Date modified;
 	private int userId;
+	private int fileId;
 	
 	/**
 	 * @return the userId
@@ -254,5 +255,16 @@ public class UserDetail
 	public Date getModified()
 	{
 		return modified;
+	}
+
+	@Column(name = "file_id")
+	public int getFileId()
+	{
+		return fileId;
+	}
+
+	public void setFileId(int fileId)
+	{
+		this.fileId = fileId;
 	}
 }
