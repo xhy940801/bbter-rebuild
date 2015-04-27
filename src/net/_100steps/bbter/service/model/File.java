@@ -54,7 +54,7 @@ public class File
 		this.type = type;
 	}
 	
-	@Column
+	@Column(columnDefinition="BLOB")
 	public byte[] getContent()
 	{
 		return content;
